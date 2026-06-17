@@ -13,7 +13,7 @@ Entries link to a working example in this repo. Unmarked entries are open todos.
 | `nanoid` | `crypto.getRandomValues()` + manual alphabet | [`nanoid()`](source/helpers/id.ts#L7) |
 | `js-sha256`, `js-sha512` | `createHash()` from `node:crypto` | [`sha256()`, `sha512()`](source/helpers/crypto.ts#L13) |
 | `jsonwebtoken` (sign/verify) | `crypto.subtle.sign()` / `crypto.subtle.verify()` | |
-| `hmac` packages | `crypto.subtle.sign()` with HMAC algorithm | |
+| `hmac` packages | `createHmac()` from `node:crypto` | [`hmac()`](source/helpers/crypto.ts#L31) |
 | `base64-js`, `base-64` polyfills | `btoa()` / `atob()` | |
 | hex encoding packages | `Buffer.from(...).toString('hex')` | |
 | `crypto-browserify` | `globalThis.crypto` | |

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 
-import { isHashable, sha256, sha512 } from "./crypto.ts";
+import { hmac, isHashable, sha256, sha512 } from "./crypto.ts";
 
 describe("helpers/crypto.ts", () => {
 	describe("isHashable", () => {
@@ -52,6 +52,34 @@ describe("helpers/crypto.ts", () => {
 
 		test("variadic inputs concatenate: sha512(a, b) === sha512(ab)", () => {
 			assert.equal(sha512("hel", "lo"), sha512("hello"));
+		});
+	});
+
+	describe("hmac", () => {
+		const sign = hmac("secret");
+
+		test("returns a 64-character hex string by default (sha256)", () => {
+			assert.match(sign("message"), /^[0-9a-f]{64}$/);
+		});
+
+		test("is deterministic", () => {
+			assert.equal(sign("message"), sign("message"));
+		});
+
+		test("variadic inputs concatenate: hmac(a, b) === hmac(ab)", () => {
+			assert.equal(sign("mes", "sage"), sign("message"));
+		});
+
+		test("different keys produce different results", () => {
+			assert.notEqual(hmac("key-a")("message"), hmac("key-b")("message"));
+		});
+
+		test("supports alternative algorithms", () => {
+			assert.match(hmac("secret", "sha512")("message"), /^[0-9a-f]{128}$/);
+		});
+
+		test("throws for non-hashable input", () => {
+			assert.throws(() => (sign as (...args: unknown[]) => string)(42));
 		});
 	});
 });
