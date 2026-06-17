@@ -14,8 +14,8 @@ Entries link to a working example in this repo. Unmarked entries are open todos.
 | `js-sha256`, `js-sha512` | `createHash()` from `node:crypto` | [`sha256()`, `sha512()`](source/helpers/crypto.ts#L13) |
 | `jsonwebtoken` (sign/verify) | `crypto.subtle.sign()` / `crypto.subtle.verify()` | |
 | `hmac` packages | `createHmac()` from `node:crypto` | [`hmac()`](source/helpers/crypto.ts#L31) |
-| `base64-js`, `base-64` polyfills | `btoa()` / `atob()` | |
-| hex encoding packages | `Buffer.from(...).toString('hex')` | |
+| `base64-js`, `base-64` polyfills | `btoa()` / `atob()` | [`base64.encode/decode`](source/helpers/encoding.ts#L12) |
+| hex encoding packages | `Buffer.from(...).toString('hex')` | [`hex.encode/decode`](source/helpers/encoding.ts#L19) |
 | `crypto-browserify` | `globalThis.crypto` | |
 
 ---
@@ -127,8 +127,8 @@ Entries link to a working example in this repo. Unmarked entries are open todos.
 
 | Replace | With | Example |
 |---|---|---|
-| `text-encoding` polyfill | `TextEncoder` / `TextDecoder` | |
-| `iconv-lite` (UTF-8 only) | `TextDecoder` with encoding label | |
+| `text-encoding` polyfill | `TextEncoder` / `TextDecoder` | [`text.encode/decode`](source/helpers/encoding.ts#L24) |
+| `iconv-lite` (decode only) | `TextDecoder` with encoding label | [`toUTF8()`](source/helpers/encoding.ts#L34) |
 | `buffer` polyfill | `Uint8Array` + `DataView` (cross-runtime) | |
 
 ---
