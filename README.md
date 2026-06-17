@@ -8,7 +8,27 @@ No bundler. No transpiler pipeline. No `node_modules` to install.
 
 ## Philosophy
 
+Every dependency you add is a choice to trust someone else's code over your own understanding of the platform. For packages that used to fill real gaps, that trade-off no longer holds — the platform caught up. Reaching for `uuid` or `lodash.groupBy` today is mostly habit.
+
+There is a sharper reason too. Supply-chain attacks on the npm ecosystem are no longer rare — they are a steady, escalating threat. Every package you don't need is an attack surface you don't have. The most effective mitigation is knowing what your tools can already do without them.
+
 Modern JavaScript has quietly made most utility dependencies redundant. `crypto.randomUUID()`, `structuredClone()`, `Object.groupBy()`, `Array.prototype.at()` — these are all built in. This project exists to demonstrate that, and to serve as a starting point for projects that take it seriously.
+
+→ See [NATIVE.md](NATIVE.md) for the full reference.
+
+### Nice, but I use TypeScript to protect me!
+
+TypeScript's protection ends at the compiler. At runtime, you're back to JavaScript — types are gone, and nothing enforces them. The best TypeScript can do is catch a well-intentioned colleague passing the wrong shape into your function.
+
+The one construct that actually bridges the gap is largely ignored: type guards. They're plain functions that verify your assumptions at runtime, the same way TypeScript does at compile time. Most codebases never write one.
+
+Also worth noting: running TypeScript doesn't require a transpilation step — if you know your tooling. Node and Deno can both strip types natively. This project demonstrates exactly that.
+
+### Hah, but AI assistants will protect me!
+
+They won't. AI assistants generate TypeScript that *looks* rigorous — annotated, structured, compiler-clean — but almost never includes type guards. They reflect the patterns they were trained on, and the dominant pattern in most codebases is: trust the types, skip the runtime checks.
+
+So if you're using an AI to write your TypeScript, you're getting the same gap, just faster.
 
 ---
 
