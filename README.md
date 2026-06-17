@@ -30,6 +30,12 @@ They won't. AI assistants generate TypeScript that *looks* rigorous — annotate
 
 So if you're using an AI to write your TypeScript, you're getting the same gap, just faster.
 
+### But these APIs are too new!
+
+**Node.js 22+, Deno 2+, TypeScript 5.7+**
+
+If those look new to you — Node 20 reached end-of-life in April 2026, Node 18 in April 2025. Running software past its support window is a security liability, which is exactly what this project argues against. An outdated toolchain isn't a constraint to accommodate; it's the problem.
+
 ---
 
 ## How it works

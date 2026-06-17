@@ -9,9 +9,9 @@ Entries link to a working example in this repo. Unmarked entries are open todos.
 
 | Replace | With | Example |
 |---|---|---|
-| `uuid`, `nanoid`, `shortid`, `cuid` | `crypto.randomUUID()` | [`uuid()`](source/helpers/uuid.ts#L1) |
-| `nanoid` (custom alphabet) | `crypto.getRandomValues()` + manual alphabet | |
-| `js-sha256`, `js-sha512`, `md5` | `crypto.subtle.digest('SHA-256', buf)` | |
+| `uuid` | `crypto.randomUUID()` | [`uuid()`](source/helpers/id.ts#L3) |
+| `nanoid` | `crypto.getRandomValues()` + manual alphabet | [`nanoid()`](source/helpers/id.ts#L7) |
+| `js-sha256`, `js-sha512` | `createHash()` from `node:crypto` | [`sha256()`, `sha512()`](source/helpers/crypto.ts#L13) |
 | `jsonwebtoken` (sign/verify) | `crypto.subtle.sign()` / `crypto.subtle.verify()` | |
 | `hmac` packages | `crypto.subtle.sign()` with HMAC algorithm | |
 | `base64-js`, `base-64` polyfills | `btoa()` / `atob()` | |
@@ -161,6 +161,16 @@ Entries link to a working example in this repo. Unmarked entries are open todos.
 
 ---
 
+## Type Guards
+
+| Replace | With | Example |
+|---|---|---|
+| `@konfirm/guard`, `zod.safeParse`, ad-hoc `typeof` checks | `Guard<T>` alias + `is<T>()` factory + combinators | [`guards.ts`](source/helpers/guards.ts#L1) |
+
+The core vocabulary is small: a `Guard<T>` alias, an `is<T>()` factory for `typeof` checks, and three combinators — `any`, `all`, `not`. Roughly twenty lines. If you only need guards for a specific domain, that's worth owning directly rather than pulling in a dependency. A library earns its place when you need a full catalogue of built-in guards or want battle-tested edge case handling shared across multiple projects.
+
+---
+
 ## Testing
 
 | Replace | With | Example |
@@ -186,3 +196,4 @@ Some things don't have a satisfying native replacement yet:
 | **Schema validation** | `zod`, `valibot` etc. have no native equivalent |
 | **Terminal colors** | Raw ANSI codes work, but `picocolors` / `chalk` beats the DX for little cost |
 | **Complex glob patterns** | `fs.glob()` (Node 22+) is limited; `fast-glob` is still worth it for advanced cases |
+| **Guard libraries (`@konfirm/guard` etc.)** | The core pattern — `Guard<T>`, an `is<T>()` factory, and `any`/`all`/`not` combinators — fits in ~20 lines and is worth owning for domain-specific guards. A library earns its place when you need a full catalogue of built-in guards shared across multiple projects. |
