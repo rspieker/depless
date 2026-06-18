@@ -4,7 +4,46 @@ function is<T>(...types: [string, ...Array<string>]): Guard<T> {
 	return (input: unknown): input is T => types.includes(typeof input);
 }
 
+type Constructor<T = unknown> = new (...args: ReadonlyArray<unknown>) => T;
+
+function isInstanceOf<T>(ctor: Constructor<T>): Guard<T> {
+	return (input: unknown): input is T => input instanceof ctor;
+}
+
 export const isString = is<string>("string");
+export const isNumber = is<number>("number");
+export const isBoolean = is<boolean>("boolean");
+
+export function isNULL(input: unknown): input is null {
+	return input === null;
+}
+
+export function isArray(input: unknown): input is Array<unknown> {
+	return Array.isArray(input);
+}
+
+export const isObject = all<object>(is("object"), not(isNULL, isArray));
+
+export function isInteger(input: unknown): input is number {
+	return Number.isInteger(input);
+}
+
+export function isPlainObject(input: unknown): input is Record<string, unknown> {
+	return Object.prototype.toString.call(input) === "[object Object]";
+}
+
+export const isStringPrimitiveOrObject = any<string | String>(
+	isString,
+	isInstanceOf(String),
+);
+export const isNumberPrimitiveOrObject = any<number | Number>(
+	isNumber,
+	isInstanceOf(Number),
+);
+export const isBooleanPrimitiveOrObject = any<boolean | Boolean>(
+	isBoolean,
+	isInstanceOf(Boolean),
+);
 
 export function isNodeJSArrayBufferView(
 	input: unknown,

@@ -1,7 +1,23 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 
-import { all, any, isNodeJSArrayBufferView, isString, not } from "./guards.ts";
+import {
+	all,
+	any,
+	isArray,
+	isBoolean,
+	isBooleanPrimitiveOrObject,
+	isNodeJSArrayBufferView,
+	isNULL,
+	isNumber,
+	isNumberPrimitiveOrObject,
+	isInteger,
+	isObject,
+	isPlainObject,
+	isString,
+	isStringPrimitiveOrObject,
+	not,
+} from "./guards.ts";
 
 describe("helpers/guards.ts", () => {
 	describe("isString", () => {
@@ -17,6 +33,140 @@ describe("helpers/guards.ts", () => {
 			assert.equal(isString([]), false);
 			assert.equal(isString({}), false);
 			assert.equal(isString(true), false);
+		});
+	});
+
+	describe("isNumber", () => {
+		test("returns true for number primitives", () => {
+			assert.equal(isNumber(0), true);
+			assert.equal(isNumber(42), true);
+			assert.equal(isNumber(NaN), true);
+		});
+
+		test("returns false for non-numbers", () => {
+			assert.equal(isNumber("42"), false);
+			assert.equal(isNumber(null), false);
+			assert.equal(isNumber(new Number(42)), false);
+		});
+	});
+
+	describe("isBoolean", () => {
+		test("returns true for boolean primitives", () => {
+			assert.equal(isBoolean(true), true);
+			assert.equal(isBoolean(false), true);
+		});
+
+		test("returns false for non-booleans", () => {
+			assert.equal(isBoolean(0), false);
+			assert.equal(isBoolean(null), false);
+			assert.equal(isBoolean(new Boolean(true)), false);
+		});
+	});
+
+	describe("isNULL", () => {
+		test("returns true for null", () => {
+			assert.equal(isNULL(null), true);
+		});
+
+		test("returns false for non-null values including undefined", () => {
+			assert.equal(isNULL(undefined), false);
+			assert.equal(isNULL(0), false);
+			assert.equal(isNULL(""), false);
+		});
+	});
+
+	describe("isArray", () => {
+		test("returns true for arrays", () => {
+			assert.equal(isArray([]), true);
+			assert.equal(isArray([1, 2, 3]), true);
+		});
+
+		test("returns false for non-arrays", () => {
+			assert.equal(isArray({}), false);
+			assert.equal(isArray(null), false);
+			assert.equal(isArray("hello"), false);
+		});
+	});
+
+	describe("isObject", () => {
+		test("returns true for plain objects and class instances", () => {
+			assert.equal(isObject({}), true);
+			assert.equal(isObject(new Date()), true);
+		});
+
+		test("returns false for null, arrays, and primitives", () => {
+			assert.equal(isObject(null), false);
+			assert.equal(isObject([]), false);
+			assert.equal(isObject("hello"), false);
+			assert.equal(isObject(42), false);
+		});
+	});
+
+	describe("isInteger", () => {
+		test("returns true for integer numbers", () => {
+			assert.equal(isInteger(0), true);
+			assert.equal(isInteger(42), true);
+			assert.equal(isInteger(-7), true);
+		});
+
+		test("returns false for floats, NaN, Infinity, and non-numbers", () => {
+			assert.equal(isInteger(1.5), false);
+			assert.equal(isInteger(NaN), false);
+			assert.equal(isInteger(Infinity), false);
+			assert.equal(isInteger("42"), false);
+		});
+	});
+
+	describe("isPlainObject", () => {
+		test("returns true for plain objects", () => {
+			assert.equal(isPlainObject({}), true);
+			assert.equal(isPlainObject({ a: 1 }), true);
+		});
+
+		test("returns false for class instances, arrays, null, and primitives", () => {
+			assert.equal(isPlainObject(new Date()), false);
+			assert.equal(isPlainObject([]), false);
+			assert.equal(isPlainObject(null), false);
+			assert.equal(isPlainObject("hello"), false);
+		});
+	});
+
+	describe("isStringPrimitiveOrObject", () => {
+		test("returns true for string primitives", () => {
+			assert.equal(isStringPrimitiveOrObject("hello"), true);
+		});
+
+		test("returns true for String wrapper objects", () => {
+			assert.equal(isStringPrimitiveOrObject(new String("hello")), true);
+		});
+
+		test("returns false for non-strings", () => {
+			assert.equal(isStringPrimitiveOrObject(42), false);
+			assert.equal(isStringPrimitiveOrObject(null), false);
+		});
+	});
+
+	describe("isNumberPrimitiveOrObject", () => {
+		test("returns true for number primitives and Number wrappers", () => {
+			assert.equal(isNumberPrimitiveOrObject(42), true);
+			assert.equal(isNumberPrimitiveOrObject(new Number(42)), true);
+		});
+
+		test("returns false for non-numbers", () => {
+			assert.equal(isNumberPrimitiveOrObject("42"), false);
+			assert.equal(isNumberPrimitiveOrObject(null), false);
+		});
+	});
+
+	describe("isBooleanPrimitiveOrObject", () => {
+		test("returns true for boolean primitives and Boolean wrappers", () => {
+			assert.equal(isBooleanPrimitiveOrObject(true), true);
+			assert.equal(isBooleanPrimitiveOrObject(new Boolean(false)), true);
+		});
+
+		test("returns false for non-booleans", () => {
+			assert.equal(isBooleanPrimitiveOrObject(0), false);
+			assert.equal(isBooleanPrimitiveOrObject(null), false);
 		});
 	});
 

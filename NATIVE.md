@@ -38,7 +38,8 @@ Entries link to a working example in this repo. Unmarked entries are open todos.
 | `lodash.pick` / `omit` | `Object.fromEntries(Object.entries(obj).filter(...))` | |
 | `fast-deep-equal`, `deep-equal` | `JSON.stringify` for plain serialisable data | |
 | `object-assign` polyfill | `Object.assign()` or spread | |
-| `is-plain-object` | `Object.prototype.toString.call(v) === '[object Object]'` | |
+| `is-plain-object`, `lodash.isplainobject` | `Object.prototype.toString.call(v) === '[object Object]'` | [`isPlainObject()`](source/helpers/guards.ts#L31) |
+| `lodash.isinteger` | `Number.isInteger()` | [`isInteger()`](source/helpers/guards.ts#L27) |
 | `has` / `hasown` | `Object.hasOwn(obj, key)` | |
 
 ---
@@ -47,6 +48,7 @@ Entries link to a working example in this repo. Unmarked entries are open todos.
 
 | Replace | With | Example |
 |---|---|---|
+| `lodash.includes` | `Array.prototype.includes()` / `String.prototype.includes()` / `Object.values()` | [`collection.includes()`](source/helpers/collection.ts#L8) |
 | `lodash.last` | `Array.prototype.at(-1)` | [`last()`](source/helpers/array.ts#L1) |
 | `lodash.findlast` | `Array.prototype.findLast()` | [`findLast()`](source/helpers/array.ts#L5) |
 | `lodash.findlastindex` | `Array.prototype.findLastIndex()` | |

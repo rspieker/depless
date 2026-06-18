@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 
-import { clone, groupBy } from "./object.ts";
+import { clone, groupBy, includes } from "./object.ts";
 
 describe("helpers/object.ts", () => {
 	describe("clone", () => {
@@ -37,6 +37,20 @@ describe("helpers/object.ts", () => {
 			const grouped = groupBy(items, (item) => item.type);
 			assert.equal(grouped.fruit?.[0].name, "apple");
 			assert.equal(grouped.fruit?.[1].name, "banana");
+		});
+	});
+
+	describe('includes', () => {
+		test('returns true when the value exists in the object', () => {
+			assert.equal(includes({ a: 1, b: 2 }, 2), true);
+		});
+
+		test('returns false when the value does not exist', () => {
+			assert.equal(includes({ a: 1, b: 2 }, 3), false);
+		});
+
+		test('returns false for non-object input', () => {
+			assert.equal(includes(null as unknown as Record<string, unknown>, 'x'), false);
 		});
 	});
 });
